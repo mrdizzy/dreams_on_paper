@@ -13,7 +13,7 @@ body, div{
   size:A4;
   margin:0;
 }
-#printable_area { display:none; }
+#printable_area { display:block; }
 #ui_area { margin-top:80px;}
 
 #control_panel {
@@ -50,6 +50,7 @@ body, div{
   background-color:#AAA;
   cursor:pointer;
 }
+
   .grey_button:hover { background-color:black; }
   
 .A6_container {
@@ -59,7 +60,11 @@ body, div{
   height:148.5mm;	
   position:relative;
 }
-
+.valign_container {
+  margin-top:6.5mm;
+  margin-bottom:6.5mm;
+  height:135.5mm;
+}
 .selected { background-color:#EEE; }
 
 .invitation_image {
@@ -74,7 +79,6 @@ body, div{
 --------------------------------------------------------------------- */
 .monogram {
   text-align:center;
-  padding-top:12mm;
   margin:0 auto;
   z-index:2;
 }
@@ -138,7 +142,6 @@ body, div{
 
 .bride, .groom {
   margin:0 auto;
-  margin-top:5mm;
   text-align:center;
    text-transform:capitalize;
   font:normal 1.9em 'Exmouth'
@@ -151,13 +154,6 @@ body, div{
   font:normal 0.7em 'TP';
   letter-spacing:0.05em;"
 }
-.guestname { 
-  text-transform:capitalize;
-  padding-top:2.5mm;
-  margin:0 auto;
-  text-align:center;
-  font:normal 1.7em 'Exmouth';
-}
  .editable:hover {
   background-color:lightgrey;
  }
@@ -167,11 +163,17 @@ body, div{
 }
 
 .request {
-  padding-top:3.4mm;
   margin:0 auto;
   text-align:center;
   font:normal 0.75em 'TP';
   letter-spacing:0.1em;
+}
+
+.guestname { 
+  text-transform:capitalize;
+  margin:0 auto;
+  text-align:center;
+  font:normal 1.7em 'Exmouth';
 }
 
 #description {
@@ -184,6 +186,15 @@ body, div{
   font:normal 0.75em 'TP';
   letter-spacing:0.1em;
   line-height:2.2em
+}
+
+  #rsvp_table {
+  width:80mm;
+  margin:0 auto;
+  text-align:center;
+  font:normal 0.60em 'TP';
+  letter-spacing:0.05em;
+  line-height:1.7em
 }
 
 /* PRINTER 

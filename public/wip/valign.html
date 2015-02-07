@@ -1,0 +1,38 @@
+<!doctype html>
+
+<html>
+<head>
+<style type="text/css">
+.foralign { background-color:red;}
+</style>
+<link rel="stylesheet" href="reset.css" />      
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>    
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+<div id="valign_container" style="width:105mm;height:300mm;border:1px solid black;">
+
+<div class="foralign" id="element1">Rah rah rah</div>
+
+<div class="foralign" id="element2" style="height:30mm;"></div>
+
+<div class="foralign" id="element3" style="height:90mm;"></div>
+</div>
+</body>
+<script>
+var container_height = $('#valign_container').height();
+var total_height_of_elements = 0;
+var counter = 4;
+$('.foralign').each(function(index) {
+counter = counter + 1;
+  total_height_of_elements = total_height_of_elements + $(this).height();
+  console.log($(this).height())
+})
+console.log("Counter", counter)
+var remainder = container_height - total_height_of_elements;
+var padding = remainder / counter;
+$('.foralign').each(function(index) {
+ $(this).css("margin-top", padding)
+})
+</script>
+</html>
