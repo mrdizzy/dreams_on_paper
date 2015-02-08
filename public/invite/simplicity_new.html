@@ -7,7 +7,8 @@
 		
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>    
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
+		
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
   </head>
 	
   <body>
@@ -83,27 +84,23 @@
 
 
 
+<!-- FORM TEMPLATE -->
+
+<script type="text/template" id="invitation_form">
+<form>
+<input type="text" name="monogram_name"
+</form>
+</script>
 
 
 
-<!-- USER INTERFACE DISPLAY -->
+<!-- TEMPLATE -->
 
-<div style="overflow:hidden" id="ui_container">
-<div id="ui_area"></div>
-</div>
+<script type="text/template" id="invitation_front_template">
 
 
-
-
-
-
-<!-- PRINTABLE AREA -->
-
-
-<div id="printable_area">
-
-	<div class="invitation_front A6_container" style="border:1px solid green;">
-      
+	<div class="invitation_front A6_container">
+			
 			<img src="simplicity_back.svg" class="invitation_image" />	
 			<div class="valign_container">
 			<div id="original_monogram" class="foralign monogram">
@@ -111,7 +108,7 @@
 				<div class="first_name">
 					<img class="monogram_top_line" src="line.svg" />
 					<img class="monogram_bottom_line" src="line.svg" />
-					<span class="editable actual_first_name" contenteditable="true">ANNA</span>
+					<span class="editable actual_first_name" contenteditable="true"><%= monogram_bride %></span>
 				</div>
 				
 				<img id="ampersand" src="ampersand.svg" />
@@ -119,12 +116,12 @@
 				<div class="second_name">
 					<img class="monogram_top_line" src="line.svg" />
 					<img class="monogram_bottom_line" src="line.svg" />
-					<span class="editable actual_second_name" contenteditable="true">Peter</span>
+					<span class="editable actual_second_name" contenteditable="true"><%= monogram_groom %></span>
 				</div>
 					
 				<div class="monogram_town">
-					<span contenteditable="true" class="editable monogram_city">WINCHESTER</span>, 
-					<span contenteditable="true" class="editable monogram_county">Hampshire</span>
+					<span contenteditable="true" class="editable monogram_city"><%= venue %></span>, 
+					<span contenteditable="true" class="editable monogram_county"><%= location %></span>
 				</div>
 				
 				<div contenteditable="true" class="editable monogram_date">July 21st, 2015</div>
@@ -139,9 +136,9 @@
 			
 			
 			<div id="bride_and_groom" class="foralign">
-				<div contenteditable="true" class="editable bride">David John Pettifer</div>				
+				<div id="groom_fullname" contenteditable="true" class="editable bride"><%= groom_fullname%></div>				
 				<div class="and">and</div>				
-				<div class="editable groom" contenteditable="true">Alice Leigh</div>
+				<div "bride_fullname" class="editable groom" contenteditable="true"><%= bride_fullname %></div>
 			</div>
 			
 			
@@ -157,15 +154,10 @@
 			<table id="description_text">
 				<tr>
 				<td style="vertical-align:middle;">
-				<span class="editable" contenteditable="true">on the occasion of their marriage</span> <img src="bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
+				<% maintext.forEach(function(line) { %>
+         <span class="editable" contenteditable="true"><%= line %> <img src="bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
+				<% }) %>
 				
-				<span class="editable" contenteditable="true">to take place at</span> <img class="bullet" src="bullet.svg" style="display:inline-block;vertical-align:middle;" /> 
-						
-				<span class="editable" contenteditable="true">The Ravensworth Hotel, Lamesley, Winchester</span> <img src="bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
-				
-				<span class="editable" contenteditable="true">on Saturday 17th June 2012 at 1.30pm</span> <img src="bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
-				
-				<span class="editable" contenteditable="true">Followed by a Reception at Lakeside Manor Park</span> <img src="bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
 				</td>
 				</tr>
 				</table>
@@ -178,10 +170,10 @@
 				
 				
 				<div class="foralign">
-			  <table id="rsvp_table" style="border-collapse:collapse;margin:0 auto;width:82mm;">
-				  <tr>
-					  <td style="width:27mm;vertical-align:middle;">
- 							please RSVP by<br/>
+				<table id="rsvp_table" style="border-collapse:collapse;margin:0 auto;width:82mm;">
+					<tr>
+						<td style="width:27mm;vertical-align:middle;">
+							please RSVP by<br/>
 							22&middot;05&middot;2015 
 						</td>
 						<td style="padding-right:4mm;vertical-align:middle;width:61mm;">
@@ -197,30 +189,106 @@
 				</div>
 		</div>
 	
+		
+		
+</script>
+
+
+<script type="text/template">
+
+
 		<div class="invitation_back A6_container">
 			<img src="simplicity_front.svg" class="invitation_image" />	
 			<div class="second_monogram" style="margin-top:35mm;"></div>
 			<div style="padding-top:30mm;margin:0 auto;text-align:center;font:normal 1em 'TP';letter-spacing:0.2em">&middot;Invitation&middot;</div>
 		</div>
+		</script>
+
+<!-- USER INTERFACE DISPLAY -->
+
+<div style="overflow:hidden" id="ui_container">
+  <div id="ui_area"> 
+    <div id="invitation_front_preview"></div>		
+		<div class="A6_container">
+			<div id="form_container"></div>
+		</div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- PRINTABLE AREA -->
+
+
+<div id="printable_area">
+
 		
 		
 	
 </div>
 
 <script>
-// Must wait until images are loaded first otherwise script will miscalculate the heights of elements as the images will not have caused the elements to expand.
-  $(window).bind("load", function() {
-	// Formula to vertically align a list of elements:
-	// ((height_of_page - (height of page - total of all elements height)) / (number_of_elements + 1))
-	// 
+
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+function determine_date_subscript(number) {
+	if (number == 1 || number == 21 || number == 31) {
+		return "st";
+	} else if (number == 2 || number == 22) {
+		return "nd"
+	} else if (number == 3 || number == 23) {
+		return "rd"
+	} else {
+		return "th"
+	}
+}
+
+// Scale the ui_area so that it looks nice on the screen
+var vw = $('html').width();
+var height_of_ui_container = (1.4142857142857142857142857142857 * vw)
+$('#ui_container').css("height",height_of_ui_container + 75)
+
+var transform_value = vw / 794 // 794 is the width of an A4 page in pixels
+
+$('#ui_area').css("transform", "scale(" + transform_value + ")")
+$('#ui_area').css("transform-origin", "top left")
+
+
+var Detail = Backbone.Model.extend({
+  defaults: {
+		monogram_bride: "Anna",
+		monogram_groom: "David", 	
+		groom_fullname: "Jonathan Henry Griffiths",
+		bride_fullname: "Anna Eleanor Martin",
+		wedding_day: "31",
+		wedding_month: "05",
+		wedding_year: "2015",
+		venue: "Appuldurcombe House", 
+		location: "Winchester",
+		rsvp_address: "32 Middlewood Rd, Brigton, me3 21b",
+		rsvp_email: "david.pettifer@dizzy.co.uk",
+		rsvp_phone: "07814 752865",
+		rsvp_month: "03",
+		rsvp_day: "05",
+		rsvp_year: "2015",
+		introtext: "request the pleasure of the company of",
+		maintext: [ "on the occasion of their marriage", "to take place at", "The Ravensworth Hotel, Lamesley, Winchester", "on Saturday 17th June 2012 at 1.30pm", "Followed by a Reception at Lakeside Manor Park"],
+		date: ""
+	}
+})
+
+var detail = new Detail();
+
 function Valign() {
 	var container_height = $('.valign_container').first().height();
 	var total_height_of_elements = 0;
 	var counter = 1;
 	$('.valign_container').first().find('.foralign').each(function(index) {
-	  counter = counter + 1;
+		counter = counter + 1;
 		total_height_of_elements = total_height_of_elements + $(this).height();
-		console.log($(this).height())
 	})
 
 	var remainder = container_height - total_height_of_elements;
@@ -230,34 +298,93 @@ function Valign() {
 	 $(this).css("padding-top", padding).css("padding-bottom", padding)
 	})
 }
+var InvitationFrontView = Backbone.View.extend({
+	el: '#invitation_front_preview',
+	initialize: function() {
+		 this.listenTo(this.model, 'change', this.render)
+	},
+	render: function() {
+	  var compiled_template = _.template($('#invitation_front_template').html());
+	  var html =compiled_template(this.model.toJSON())
+		this.$el.html(html);
+		Valign();
+		return this;
+	}
+})
+
+var iv = new InvitationFrontView({model: detail});
+iv.render();
+
+// Must wait until images are loaded first otherwise script will miscalculate the heights of elements as the images will not have caused the elements to expand.
+  $(window).bind("load", function() {
+	// Formula to vertically align a list of elements:
+	// ((height_of_page - (height of page - total of all elements height)) / (number_of_elements + 1))
+	// 
+
+var InvitationForm = Backbone.View.extend({
+  tagName: "form",
+	events: {
+		'blur input': 'update'
+	},
+	update: function(e) {
+	  var $field = $(e.currentTarget);
+		var value = $field.val();
+    var id = $field.data("field")
+		if (id == "maintext") {
+		console.log(value, $field.data("counter"))
+      var ary = this.model.get("maintext");
+      ary[$field.data("counter")] = value;
+			this.model.set("maintext", ary).trigger("change")
+		} else {	
+		  this.model.set(id, value)
+		}
+	},
+	render: function() {
+	 var that = this;
+	this.$el.empty();
+	var fields = this.model.attributes
+		for(key in fields) {
+
+		  if (key == "maintext") {
+				var lines = fields[key]
+				var counter = 0;
+				lines.forEach(function(line) {
+
+					var $field = $('<input type="text" value="' + line + '" size="50" data-field="maintext" data-counter="' + counter + '"></input><br/>"')
+			that.$el.append($field)
+							  counter = counter + 1;
+				})
+			} else {
+		  var $field = $('<input type="text" value="' + fields[key] + '" size="50" data-field="' + key + '"></input><br/>"')
+			this.$el.append($field)
+			}
+		}
+		
+		return this;
+	}
+})
+
+var invitation_form = new InvitationForm({model:detail});
+$('#form_container').html(invitation_form.render().$el);
 
 Valign();
-
-var vw = $('html').width();
-var height_of_ui_container = (1.4142857142857142857142857142857 * vw)
-$('#ui_container').css("height",height_of_ui_container + 75)
-
-var transform_value = vw / 794 // 794 is the width of an A4 page in pixels
 
 // Copy monogram to front design
 $('#original_monogram').clone().appendTo('.second_monogram');
 
-var $front = $('.invitation_front').clone();
-$front.appendTo('#printable_area');
-var $back = $('.invitation_back').clone();
-$back.appendTo('#printable_area')	
+//var $front = $('.invitation_front').clone();
+//$front.appendTo('#printable_area');
+//var $back = $('.invitation_back').clone();
+//$back.appendTo('#printable_area')	
 
-var $printable_area = $('#printable_area').clone()
+//var $printable_area = $('#printable_area').clone()
   // $('#printable_area') is the equivalent of an A4 page width 
 	// therefore we need to find the value of the viewport and scale it
 	// up or down by a percentage to make it the same size as the viewport
 	// We use  the transform_value as the percentage.
-$('#ui_area').html($printable_area.html())
-$('#ui_area').css("transform", "scale(" + transform_value + ")")
-$('#ui_area').css("transform-origin", "top left")
+//$('#ui_area').html($printable_area.html())
 
 $('.editable').blur(function(e) {
-console.log("Actioned")
 	var $target = $(e.currentTarget);
 	var classes = $target.attr('class').split(' ');
 	var element_classes_to_change = classes[1];
@@ -267,9 +394,9 @@ console.log("Actioned")
 })
 
 $('#folded_invite').click(function() {
-  $front = $('#printable_area .invitation_front')[0];
+  $front = $('#ui_area .invitation_front')[0];
   $front = $($front);
-	$back = $('#printable_area .invitation_back')[0];
+	$back = $('#ui_area .invitation_back')[0];
 	$back = $($back);
   $('#folded_invite').addClass("selected")
 	$('#flat_invite').removeClass("selected")
@@ -279,11 +406,10 @@ $('#folded_invite').click(function() {
 	$('#printable_area').append($back.clone().css({float:"right", clear: "none"}))
 })
 
-
 $('#flat_invite').click(function() {
-  $front = $('#printable_area .invitation_front')[0];
+  $front = $('#ui_area .invitation_front')[0];
 	$front = $($front);
-	$back = $('#printable_area .invitation_back')[0];
+	$back = $('#ui_area .invitation_back')[0];
 	$back = $($back);
 	$('#folded_invite').removeClass("selected")
 	$('#flat_invite').addClass("selected")
