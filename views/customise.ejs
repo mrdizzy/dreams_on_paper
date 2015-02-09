@@ -2,8 +2,8 @@
 <html>
   <head>
 	
-		<link rel="stylesheet" href="reset.css" />       
-    <link rel="stylesheet" href="stylesheet.css" />   
+		<link rel="stylesheet" href="/stylesheets/reset.css" />       
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css" />   
 		
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>    
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -107,21 +107,21 @@
 
 	<div class="invitation_front A6_container">
 			
-			<img src="simplicity_back.svg" class="invitation_image" />	
+			<img src="/invite/simplicity_back.svg" class="invitation_image" />	
 			<div class="valign_container">
 			<div id="original_monogram" class="foralign monogram">
 
 				<div class="first_name">
-					<img class="monogram_top_line" src="line.svg" />
-					<img class="monogram_bottom_line" src="line.svg" />
+					<img class="monogram_top_line" src="/invite/line.svg" />
+					<img class="monogram_bottom_line" src="/invite/line.svg" />
 					<span class="editable actual_first_name" contenteditable="false">{{= monogram_bride }}</span>
 				</div>
 				
-				<img id="ampersand" src="ampersand.svg" />
+				<img id="ampersand" src="/invite/ampersand.svg" />
 				
 				<div class="second_name">
-					<img class="monogram_top_line" src="line.svg" />
-					<img class="monogram_bottom_line" src="line.svg" />
+					<img class="monogram_top_line" src="/invite/line.svg" />
+					<img class="monogram_bottom_line" src="/invite/line.svg" />
 					<span class="editable actual_second_name" contenteditable="false">{{= monogram_groom }}</span>
 				</div>
 					
@@ -161,7 +161,7 @@
 				<tr>
 				<td style="vertical-align:middle;">
 				{{ maintext.forEach(function(line) { }}
-         <span class="editable" contenteditable="false">{{= line }} <img src="bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
+         <span class="editable" contenteditable="false">{{= line }} <img src="/invite/bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
 				{{ }) }}
 				
 				</td>
@@ -184,12 +184,12 @@
 						</td>
 						<td style="padding-right:4mm;vertical-align:middle;width:61mm;">
 						
-							<img src="rsvp_envelope.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_address }}</span> 							<img src="rsvp_mouse.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_email }}</span> <img src="rsvp_phone.svg" style="padding-right:3px;vertical-align:middle;width:10px;" />	<span class="editable" contenteditable="false">{{= rsvp_phone }}</span>
+							<img src="/invite/rsvp_envelope.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_address }}</span> 							<img src="/invite/rsvp_mouse.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_email }}</span> <img src="/invite/rsvp_phone.svg" style="padding-right:3px;vertical-align:middle;width:10px;" />	<span class="editable" contenteditable="false">{{= rsvp_phone }}</span>
 						</td>
 				</table>
 				</div>
 				<div class="foralign">
-				<img src="ornament.svg" style="margin:0 auto;width:5mm;display:block;" />
+				<img src="/invite/ornament.svg" style="margin:0 auto;width:5mm;display:block;" />
 				</div>
 				
 				</div>
@@ -342,8 +342,25 @@ iv.render();
 ////
 var InvitationForm = Backbone.View.extend({
   tagName: "form",
+	attributes: { "method": "POST", "action": "/sendform"},
 	initialize: function() {
-		this.listenTo(this.model, "change:maintext", this.render)
+		this.listenTo(this.model, "change:maintext", this.renderMainText)
+	},
+	renderMainText: function() {
+		  var $maintext = this.$('#maintext_container')
+			$maintext.empty();
+				var lines = this.model.get("maintext")
+				var counter = 0;
+				lines.forEach(function(line) {
+					var $label = $('<label for="maintext' + counter + '">Line ' + counter + '</label><br/>')
+					var $field = $('<input type="text" value="' + line + '" name="maintext' + counter+ '" size="50" data-field="maintext" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '"class="delete"><br/>"')
+
+					$maintext.append($label).append($field)
+					if (counter == (lines.length - 1)) {
+						$maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
+					}
+					counter = counter + 1;
+				})
 	},
 	events: {
 		'blur input': 'update',
@@ -359,8 +376,10 @@ var InvitationForm = Backbone.View.extend({
 		this.model.set("maintext", ary).trigger("change:maintext")
 	},
 	addToMainText: function() {
+
 	  var ary = this.model.get("maintext");
 		ary.push("");
+		console.log(ary)
 		this.model.set("maintext", ary).trigger("change:maintext")
 	},
 	selectChanged: function(e) {
@@ -392,18 +411,20 @@ var InvitationForm = Backbone.View.extend({
 				var name = key.replace(/_/g, " ").split("-")[0];
 				name = name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		  if (key == "maintext") {
+			  var $maintext = $('<div id="maintext_container"></div>')
 				var lines = fields[key]
 				var counter = 0;
 				lines.forEach(function(line) {
 				  var $label = $('<label for="maintext' + counter + '">Line ' + counter + '</label><br/>')
 					var $field = $('<input type="text" value="' + line + '" name="maintext' + counter+ '" size="50" data-field="maintext" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '"class="delete"><br/>"')
 
-			    that.$el.append($label).append($field)
+			    $maintext.append($label).append($field)
 			    if (counter == (lines.length - 1)) {
-				    that.$el.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
+				    $maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
 			    }
 					counter = counter + 1;
 				})
+				that.$el.append($maintext)
 			} else if (key == "wedding_day" || key == "rsvp_day") {
 				var $label = $('<label for="' + key + '">' + name + '</label><br/>')
 				var build_select_string = '<select name="' + key + '" data-field="' + key + '">'
@@ -434,10 +455,11 @@ var InvitationForm = Backbone.View.extend({
 			} else {
 			  
 			  var $label = $('<label for="' + key + '">' + name + '</label><br/>')
-		    var $field = $('<input type="text" value="' + fields[key] + '" size="50" data-field="' + key + '"></input><br/>"')
+		    var $field = $('<input type="text" value="' + fields[key] + '" size="50" data-field="' + key + '" name="' + key + '"></input><br/>"')
 			  this.$el.append($label).append($field)
 			}
 		}	
+		this.$el.append("<input type='hidden' name='ebay_id' value='<%= ebay_id %>'></input>")
 		this.$el.append("<input type='submit' style='padding:1em;margin-top:1em;'></submit>")
 		return this;
 	}
