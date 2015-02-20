@@ -1,0 +1,9 @@
+<!doctype html>
+<html>
+<body>
+<ul>
+<% orders.forEach(function(order) { %>
+<li><a href="/invitations/<%= order._id %>"><%= order._id %> <%= order.rsvp_email %></a></li>
+<% }) %>
+</ul>
+</body>

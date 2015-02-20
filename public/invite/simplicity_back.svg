@@ -6,12 +6,12 @@
 	<!ENTITY ns_xlink "http://www.w3.org/1999/xlink">
 ]>
 <svg  version="1.1" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-	 width="298" height="421" viewBox="0 -0.055 298 421" enable-background="new 0 -0.055 298 421" xml:space="preserve">
+	 width="298" height="421" viewBox="0 -0.05 298 421" enable-background="new 0 -0.05 298 421" xml:space="preserve">
 <defs>
 </defs>
-<rect fill="#FFFFFF" width="297.639" height="420.945"/>
-<rect fill="none" width="297.639" height="420.945"/>
-<path fill="none" stroke="#000000" stroke-width="0.25" d="M281.882,362.48c0,23.387-19.134,42.52-42.521,42.52H56.401
-	c-23.386,0-42.52-19.133-42.52-42.52V58.52c0-23.386,19.134-42.52,42.52-42.52h182.96c23.387,0,42.521,19.134,42.521,42.52V362.48z"
-	/>
+<rect fill="#FFFFFF" width="297.64" height="420.95"/>
+<rect fill="none" width="297.64" height="420.95"/>
+<path fill="none" stroke="#000000" stroke-width="0.25" d="M283.65,362.4c0,23.39-19.18,42.52-42.61,42.52H57.68
+	c-23.44,0-42.61-19.13-42.61-42.52V58.44c0-23.39,19.18-42.52,42.61-42.52h183.36c23.44,0,42.61,19.13,42.61,42.52V362.4
+	L283.65,362.4z"/>
 </svg>

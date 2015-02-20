@@ -43,7 +43,7 @@ label {
 }
 
 .layout_container {
-  display:none;
+  /*display:none;*/
   /*display:inline-block;*/
   text-align:center;width:50px;
   padding:1em;
@@ -174,16 +174,12 @@ label {
   background-color:lightgrey;
  }
 .bullet {
-  width:0.9em;
-  height:0.9em;
+  width:1em;
+  vertical-align:middle;
+  height:1em;
+  padding-bottom:0.1em;
 }
 
-.request {
-  margin:0 auto;
-  text-align:center;
-  font:normal 0.75em 'TP';
-  letter-spacing:0.1em;
-}
 
 .guestname { 
   text-transform:capitalize;
@@ -196,7 +192,7 @@ label {
 opacity:1;
 cursor:pointer;
 }
-  #description_text {
+  #before_text, .request, #description_text {
   width:80mm;
   margin:0 auto;
   text-align:center;

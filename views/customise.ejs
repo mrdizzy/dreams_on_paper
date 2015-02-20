@@ -9,88 +9,21 @@
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 		<script>
-		_.templateSettings = {
-		interpolate: /\{\{=(.+?)\}\}/g,
-		evaluate: /\{\{(.+?)\}\}/g
-};
-</script>
+			_.templateSettings = {
+			interpolate: /\{\{=(.+?)\}\}/g,
+			evaluate: /\{\{(.+?)\}\}/g
+			};
+		</script>
 		
   </head>
 	
   <body>
-	
-	
-	
-	
 
-<!-- PRINTER ALERT BOX -->
+	<% include partials/printer_alert_box %>	
+	<% include partials/control_panel %>
+   <% include partials/invitation_front %>
 
-<div id="ui_print_alert">       
-
-	<img src="/gfx/close/close3.svg" class="close" />    
-	
-	<div id="choose_layout">Choose layout</div>
-	
-	<div id="layout_icons_wrapper">
-	
-		<div class="layout_container" id="folded_invite" style="width:90%;border-radius:10px;">
-			<img src="/gfx/icons/open.svg" style="width:35px;vertical-align:middle;float:left;" />
-		
-			<div class="details" style="padding-top:5px;text-align:left;font:normal 1.2em 'OS Light';margin-left:50px;">
-				If you want to have your invitations folded with a front cover and an inside, then choose this option.<br/>
-				<span style="font:normal 0.9em 'OS Light Italic';line-height:0.9em;">Two pages will be printed and after the first page has printed you will need to turn it over and print onto the other side. You will have 2 invitations per A4 page.</span>
-			</div>
-		</div>
-		
-		<div class="details" style="clear:both;text-align:center;font:normal 1.2em 'OS Light';margin-left:100px;">
-				OR
-		</div>
-		
-		<div class="layout_container" id="flat_invite" style="width:90%;border-radius:10px;">
-			<img src="/gfx/icons/flat.svg" style="width:35px;vertical-align:middle;float:left;" />
-		
-			<div class="details" style="padding-top:5px;text-align:left;font:normal 1.2em 'OS Light';margin-left:50px;">
-					If you want flat invitations printed on both sides, choose this option.<br/>
-				<span style="font:normal 0.9em 'OS Light Italic';line-height:0.9em;">One page will be printed. Turn the page over and then print again using this option. You will have 4 invitations per A4 page.</span>
-			</div>
-		</div>
-		
-	</div>
-	
-	
-	<div style="margin:0 auto;width:48%;padding-top:0.5em;">
-		<div class="grey_button" id="print_now" style="border-radius:10px;clear:both;width:150px;">SUBMIT</div>
-	</div>
-	
-</div>
-
-
-
-	
-	
-	<!-- CONTROL PANEL -->
-
-<div id="control_panel" style="line-height:20px;">
-  <img src="/gfx/logo/casamiento_black.svg" style="vertical-align:middle;width:150px" />
-	
-	<div class="layout_container" id="printer_icon">
-		<img src="/gfx/icons/printer35.svg" style="width:50px;vertical-align:middle;" />
-	</div>
-	
-	<img src="/gfx/logo/drms.svg" style="padding:5px;display:block;float:right;width:140px;"/>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-<!-- FORM TEMPLATE -->
+<!-- FORM JAVASCRIPT TEMPLATE -->
 
 <script type="text/template" id="invitation_form">
   <form>
@@ -100,116 +33,13 @@
 
 
 
-<!-- TEMPLATE -->
+<!-- INVTATION BACK JAVASCRIPT TEMPLATE -->
 
-<script type="text/template" id="invitation_front_template">
+	<script type="text/template">
 
-
-	<div class="invitation_front A6_container">
-			
-			<img src="/invite/simplicity_back.svg" class="invitation_image" />	
-			<div class="valign_container">
-			<div id="original_monogram" class="foralign monogram">
-
-				<div class="first_name">
-					<img class="monogram_top_line" src="/invite/line.svg" />
-					<img class="monogram_bottom_line" src="/invite/line.svg" />
-					<span class="editable actual_first_name" contenteditable="false">{{= monogram_bride }}</span>
-				</div>
-				
-				<img id="ampersand" src="/invite/ampersand.svg" />
-				
-				<div class="second_name">
-					<img class="monogram_top_line" src="/invite/line.svg" />
-					<img class="monogram_bottom_line" src="/invite/line.svg" />
-					<span class="editable actual_second_name" contenteditable="false">{{= monogram_groom }}</span>
-				</div>
-					
-				<div class="monogram_town">
-					<span contenteditable="false" class="editable monogram_city">{{= venue }}</span>, 
-					<span contenteditable="false" class="editable monogram_county">{{= location }}</span>
-				</div>
-				
-				<div contenteditable="false" class="editable monogram_date">{{= pretty_monogram_month }} {{=wedding_day}}{{= pretty_date_subscript}}, 2015</div>
-				</div>
-		
-			
-			
-			
-			
-			
-			
-			
-			
-			<div id="bride_and_groom" class="foralign">
-				<div id="groom_fullname" contenteditable="false" class="editable bride">{{= groom_fullname}}</div>				
-				<div class="and">and</div>				
-				<div "bride_fullname" class="editable groom" contenteditable="false">{{= bride_fullname }}</div>
-			</div>
-			
-			
-			
-			
-			<div class="request foralign">{{=introtext}}</div>
-			
-			
-			
-			
-			<div contenteditable="false" class="foralign guestname">Mr &amp; Mrs Guest Name</div>
-			<div class="foralign">
-			<table id="description_text">
-				<tr>
-				<td style="vertical-align:middle;">
-				{{ maintext.forEach(function(line) { }}
-         <span class="editable" contenteditable="false">{{= line }} <img src="/invite/bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
-				{{ }) }}
-				
-				</td>
-				</tr>
-				</table>
-				</div>
-				
-				
-				
-				
-				
-				
-				
-				<div class="foralign">
-				<table id="rsvp_table" style="border-collapse:collapse;margin:0 auto;width:82mm;">
-					<tr>
-						<td style="width:27mm;vertical-align:middle;">
-							please RSVP by<br/>
-							{{=rsvp_day}}&middot;{{=rsvp_month}}&middot;{{=rsvp_year}} 
-						</td>
-						<td style="padding-right:4mm;vertical-align:middle;width:61mm;">
-						
-							<img src="/invite/rsvp_envelope.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_address }}</span> 							<img src="/invite/rsvp_mouse.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_email }}</span> <img src="/invite/rsvp_phone.svg" style="padding-right:3px;vertical-align:middle;width:10px;" />	<span class="editable" contenteditable="false">{{= rsvp_phone }}</span>
-						</td>
-				</table>
-				</div>
-				<div class="foralign">
-				<img src="/invite/ornament.svg" style="margin:0 auto;width:5mm;display:block;" />
-				</div>
-				
-				</div>
-		</div>
-	
 		
 		
-</script>
-
-
-<script type="text/template">
-
-
-		<div class="invitation_back A6_container">
-			<img src="simplicity_front.svg" class="invitation_image" />	
-			<div class="second_monogram" style="margin-top:35mm;"></div>
-			<div style="padding-top:30mm;margin:0 auto;text-align:center;font:normal 1em 'TP';letter-spacing:0.2em">&middot;Invitation&middot;</div>
-		</div>
-		</script>
-
+	</script>
 <!-- USER INTERFACE DISPLAY -->
 
 <div style="overflow:hidden" id="ui_container">
@@ -217,6 +47,11 @@
     <div id="invitation_front_preview"></div>		
 		<div class="A6_container">
 			<div id="form_container"></div>
+		</div>
+		<div class="invitation_back A6_container">
+			<img src="/invite/simplicity_front.svg" class="invitation_image" />	
+			<div class="second_monogram" style="margin-top:35mm;"></div>
+			<div style="padding-top:30mm;margin:0 auto;text-align:center;font:normal 1em 'TP';letter-spacing:0.2em">&middot;Invitation&middot;</div>
 		</div>
   </div>
 </div>
@@ -229,12 +64,7 @@
 <!-- PRINTABLE AREA -->
 
 
-<div id="printable_area">
-
-		
-		
-	
-</div>
+<div id="printable_area"></div>
 
 <script>
 
@@ -274,18 +104,23 @@ var Detail = Backbone.Model.extend({
 		wedding_year: 2015,
 		venue: "Appuldurcombe House", 
 		location: "Winchester",		
+		beforetext: ["Before text is here", "And again here", "it is an array"],
+		middletext: [ "Are getting married", "and request the pleasure of the company of"],
 	  rsvp_day: 05,
 		rsvp_month: 03,
 		rsvp_year: 2015,
 		rsvp_address: "32 Middlewood Rd, Brigton, me3 21b",
 		rsvp_email: "david.pettifer@dizzy.co.uk",
 		rsvp_phone: "07814 752865",
-		introtext: "request the pleasure of the company of",
 		maintext: [ "on the occasion of their marriage", "to take place at", "The Ravensworth Hotel, Lamesley, Winchester", "on Saturday 17th June 2012 at 1.30pm", "Followed by a Reception at Lakeside Manor Park"],
 	}
 })
 
+<% if (order) { %>
+var detail = new Detail(<%- JSON.stringify(order) %>);
+<% } else { %>
 var detail = new Detail();
+<% } %>
 
 function Valign() {
 	var container_height = $('.valign_container').first().height();
@@ -303,11 +138,14 @@ function Valign() {
 	 $(this).css("padding-top", padding).css("padding-bottom", padding)
 	})
 }
+
 var InvitationFrontView = Backbone.View.extend({
 	el: '#invitation_front_preview',
 	initialize: function() {
-		 this.listenTo(this.model, 'change', this.render)
-		 		 this.listenTo(this.model, 'change:maintext', this.render)
+		this.listenTo(this.model, 'change', this.render)
+		this.listenTo(this.model, 'change:maintext', this.render)
+				this.listenTo(this.model, 'change:beforetext', this.render)
+								this.listenTo(this.model, 'change:middletext', this.render)
 	},
 	render: function() {
 	  var compiled_template = _.template($('#invitation_front_template').html());
@@ -334,7 +172,6 @@ iv.render();
 	// ((height_of_page - (height of page - total of all elements height)) / (number_of_elements + 1))
 	// 
 
-
 ////
 ////
 ////   FORM
@@ -345,42 +182,57 @@ var InvitationForm = Backbone.View.extend({
 	attributes: { "method": "POST", "action": "/sendform"},
 	initialize: function() {
 		this.listenTo(this.model, "change:maintext", this.renderMainText)
+		this.listenTo(this.model, "change:beforetext", this.renderBeforeText)
+				this.listenTo(this.model, "change:middletext", this.renderMiddleText)
 	},
 	renderMainText: function() {
-		  var $maintext = this.$('#maintext_container')
+		this.renderMultipleText("maintext")
+	},
+	renderBeforeText: function(){
+		this.renderMultipleText("beforetext")
+	},
+	renderMIddleText: function(){
+		this.renderMultipleText("middletext")
+	},
+	renderMultipleText: function(field) {
+
+		  var $maintext = this.$('#' + field + '_container')
 			$maintext.empty();
-				var lines = this.model.get("maintext")
+				var lines = this.model.get(field)
 				var counter = 0;
 				lines.forEach(function(line) {
-					var $label = $('<label for="maintext' + counter + '">Line ' + counter + '</label><br/>')
-					var $field = $('<input type="text" value="' + line + '" name="maintext' + counter+ '" size="50" data-field="maintext" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '"class="delete"><br/>"')
+					var $label = $('<label for="' + field + counter + '">Line ' + counter + '</label><br/>')
+					var $field = $('<input type="text" value="' + line + '" name="' + field + counter+ '" size="50" data-field="' + field + '" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '" data-field_type="' + field + '" class="delete"><br/>"')
 
 					$maintext.append($label).append($field)
 					if (counter == (lines.length - 1)) {
-						$maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
+						$maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light" data-field_type="' + field + '"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
 					}
 					counter = counter + 1;
 				})
 	},
 	events: {
 		'blur input': 'update',
-		'click .add': 'addToMainText',
-		'click .delete': 'deleteMainText',
+		'click .add': 'addToText',
+		'click .delete': 'deleteText',
 		'change select': 'selectChanged'
 	},
-	deleteMainText: function(e) {
-	  var $field = $(e.currentTarget);
+	deleteText: function(e) {	 
+		var $field = $(e.currentTarget);
+		 var field_type = $field.data("field_type")
 		var index = $field.data("delete")
-		var ary = this.model.get("maintext");
+		var ary = this.model.get(field_type);
 		ary.splice(index,1)
-		this.model.set("maintext", ary).trigger("change:maintext")
-	},
-	addToMainText: function() {
-
-	  var ary = this.model.get("maintext");
-		ary.push("");
 		console.log(ary)
-		this.model.set("maintext", ary).trigger("change:maintext")
+		this.model.set(field_type, ary).trigger("change:" + field_type)
+	},
+	addToText: function(e) {
+		 var $field = $(e.currentTarget);
+		 var field_type = $field.data("field_type")
+
+	var ary = this.model.get(field_type);
+		ary.push("");
+		this.model.set(field_type, ary).trigger("change:" + field_type)
 	},
 	selectChanged: function(e) {
 		var $field = $(e.currentTarget);
@@ -394,10 +246,10 @@ var InvitationForm = Backbone.View.extend({
 	  var $field = $(e.currentTarget);
 		var value = $field.val();
     var id = $field.data("field")
-		if (id == "maintext") {
-      var ary = this.model.get("maintext");
+		if (id == "maintext" || id == "beforetext") {
+      var ary = this.model.get(id);
       ary[$field.data("counter")] = value;
-			this.model.set("maintext", ary).trigger("change")
+			this.model.set(id, ary).trigger("change")
 		} else {	
 		  this.model.set(id, value)
 		}
@@ -410,17 +262,17 @@ var InvitationForm = Backbone.View.extend({
 		// MAKE FRIENDLY NAME				
 				var name = key.replace(/_/g, " ").split("-")[0];
 				name = name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-		  if (key == "maintext") {
-			  var $maintext = $('<div id="maintext_container"></div>')
+		  if (key == "maintext" || key =="beforetext" || key =="middletext") {
+			  var $maintext = $('<div id="' + key + '_container"></div>')
 				var lines = fields[key]
 				var counter = 0;
 				lines.forEach(function(line) {
-				  var $label = $('<label for="maintext' + counter + '">Line ' + counter + '</label><br/>')
-					var $field = $('<input type="text" value="' + line + '" name="maintext' + counter+ '" size="50" data-field="maintext" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '"class="delete"><br/>"')
+				  var $label = $('<label for="' + key + counter + '">Line ' + counter + '</label><br/>')
+					var $field = $('<input type="text" value="' + line + '" name="' + key + counter+ '" size="50" data-field="' + key + '" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '" data-field_type="' + key + '" class="delete"><br/>"')
 
 			    $maintext.append($label).append($field)
 			    if (counter == (lines.length - 1)) {
-				    $maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
+				    $maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light" data-field_type="' + key +'"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
 			    }
 					counter = counter + 1;
 				})
