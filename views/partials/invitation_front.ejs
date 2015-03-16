@@ -1,6 +1,4 @@
-
 <script type="text/template" id="invitation_front_template">
-
 
 	<div class="invitation_front A6_container">
 			
@@ -13,7 +11,7 @@
 					<div class="first_name">
 						<img class="monogram_top_line" src="/invite/line.svg" />
 						<img class="monogram_bottom_line" src="/invite/line.svg" />
-						<span class="editable actual_first_name" contenteditable="false">{{= monogram_bride }}</span>
+						<span class="editable actual_first_name" >{{= monogram_bride }}</span>
 					</div>
 					
 					<img id="ampersand" src="/invite/ampersand.svg" />
@@ -21,15 +19,15 @@
 					<div class="second_name">
 						<img class="monogram_top_line" src="/invite/line.svg" />
 						<img class="monogram_bottom_line" src="/invite/line.svg" />
-						<span class="editable actual_second_name" contenteditable="false">{{= monogram_groom }}</span>
+						<span class="editable actual_second_name" >{{= monogram_groom }}</span>
 					</div>
 						
 					<div class="monogram_town">
-						<span contenteditable="false" class="editable monogram_city">{{= venue }}</span>, 
-						<span contenteditable="false" class="editable monogram_county">{{= location }}</span>
+						<span  class="editable monogram_city">{{= venue }}</span>, 
+						<span  class="editable monogram_county">{{= location }}</span>
 					</div>
 					
-					<div contenteditable="false" class="editable monogram_date">{{= pretty_monogram_month }} {{=wedding_day}}{{= pretty_date_subscript}}, 2015</div>
+					<div  class="editable monogram_date">{{= pretty_monogram_month }} {{=wedding_day}}{{= pretty_date_subscript}}, 2015</div>
 				</div>
 		
 			
@@ -37,12 +35,10 @@
 			
 			   <div id="before_text" class="foralign">
 				 {{ beforetext.forEach(function(line) { }}
-				 <span class="editable" contenteditable="false">{{= line }} {{ if (beforetext[beforetext.length - 1] == line) { }} 
-			
-				 {{ } else { }}
-				
-<img src="/invite/bullet.svg" class="bullet" style="vertical-align:middle;" />
-{{ } }} 
+				 	<span class="editable" >{{= line }} {{ if (beforetext[beforetext.length - 1] == line) { }} 
+				 {{ } else { }}			
+					<img src="/invite/bullet.svg" class="bullet" style="vertical-align:middle;" />
+					{{ } }} 
 				{{ }) }}
 				 </div>
 			
@@ -55,9 +51,9 @@
 				<img src="/gfx/circle_bride.svg" style="display:block;width:85mm;height:19mm;margin-left:10mm;" />
 				</div>
 				
-				<div id="groom_fullname" contenteditable="false" class="editable bride">{{= groom_fullname}}</div>				
+				<div id="groom_fullname"  class="editable bride">{{= groom_fullname}}</div>				
 				<div class="and">and</div>				
-				<div "bride_fullname" class="editable groom" contenteditable="false">{{= bride_fullname }}</div>
+				<div "bride_fullname" class="editable groom" >{{= bride_fullname }}</div>
 				
 			</div>
 			
@@ -66,7 +62,7 @@
 			
 				 <div id="middle_text" class="request foralign">
 				 {{ middletext.forEach(function(line) { }}
-				 <span class="editable" contenteditable="false">{{= line }} {{ if (middletext[middletext.length - 1] == line) { }} 
+				 <span class="editable" >{{= line }} {{ if (middletext[middletext.length - 1] == line) { }} 
 			
 				 {{ } else { }}
 				
@@ -77,13 +73,13 @@
 			
 			
 			
-			<div contenteditable="false" class="foralign guestname">Mr &amp; Mrs Guest Name</div>
+			<div  class="foralign guestname">Mr &amp; Mrs Guest Name</div>
 			<div class="foralign">
 			<table id="description_text">
 				<tr>
 				<td style="vertical-align:middle;">
 				{{ maintext.forEach(function(line) { }}
-				 <span class="editable" contenteditable="false">{{= line }} {{ if (maintext[maintext.length - 1] == line) { }} 
+				 <span class="editable" >{{= line }} {{ if (maintext[maintext.length - 1] == line) { }} 
 			
 				 {{ } else { }}
 				
@@ -111,7 +107,7 @@
 						</td>
 						<td style="padding-right:4mm;vertical-align:middle;width:61mm;">
 						
-							<img src="/invite/rsvp_envelope.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_address }}</span> 							<img src="/invite/rsvp_mouse.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" contenteditable="false">{{= rsvp_email }}</span> <img src="/invite/rsvp_phone.svg" style="padding-right:3px;vertical-align:middle;width:10px;" />	<span class="editable" contenteditable="false">{{= rsvp_phone }}</span>
+							<img src="/invite/rsvp_envelope.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" >{{= rsvp_address }}</span> 							<img src="/invite/rsvp_mouse.svg" style="padding-right:3px;vertical-align:middle;width:13px;" />	<span class="editable" >{{= rsvp_email }}</span> <img src="/invite/rsvp_phone.svg" style="padding-right:3px;vertical-align:middle;width:10px;" />	<span class="editable" >{{= rsvp_phone }}</span>
 						</td>
 				</table>
 				</div>

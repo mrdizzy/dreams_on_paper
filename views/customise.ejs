@@ -21,25 +21,21 @@
 
 	<% include partials/printer_alert_box %>	
 	<% include partials/control_panel %>
-   <% include partials/invitation_front %>
+  <% include partials/invitation_front %>
+  <% include partials/form %>
 
 <!-- FORM JAVASCRIPT TEMPLATE -->
 
 <script type="text/template" id="invitation_form">
-  <form>
-    <input type="text" name="monogram_name">
-  </form>
+  <form><input type="text" name="monogram_name"></form>
 </script>
 
 
 
 <!-- INVTATION BACK JAVASCRIPT TEMPLATE -->
 
-	<script type="text/template">
-
-		
-		
-	</script>
+	<script type="text/template"></script>
+	
 <!-- USER INTERFACE DISPLAY -->
 
 <div style="overflow:hidden" id="ui_container">
@@ -104,7 +100,7 @@ var Detail = Backbone.Model.extend({
 		wedding_year: 2015,
 		venue: "Appuldurcombe House", 
 		location: "Winchester",		
-		beforetext: ["Before text is here", "And again here", "it is an array"],
+		beforetext: ["Together with their parents"],
 		middletext: [ "Are getting married", "and request the pleasure of the company of"],
 	  rsvp_day: 05,
 		rsvp_month: 03,
@@ -113,6 +109,7 @@ var Detail = Backbone.Model.extend({
 		rsvp_email: "david.pettifer@dizzy.co.uk",
 		rsvp_phone: "07814 752865",
 		maintext: [ "on the occasion of their marriage", "to take place at", "The Ravensworth Hotel, Lamesley, Winchester", "on Saturday 17th June 2012 at 1.30pm", "Followed by a Reception at Lakeside Manor Park"],
+		ebay_id: <%= ebay_id %>
 	}
 })
 
@@ -144,8 +141,8 @@ var InvitationFrontView = Backbone.View.extend({
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render)
 		this.listenTo(this.model, 'change:maintext', this.render)
-				this.listenTo(this.model, 'change:beforetext', this.render)
-								this.listenTo(this.model, 'change:middletext', this.render)
+		this.listenTo(this.model, 'change:beforetext', this.render)
+		this.listenTo(this.model, 'change:middletext', this.render)
 	},
 	render: function() {
 	  var compiled_template = _.template($('#invitation_front_template').html());
@@ -173,10 +170,7 @@ iv.render();
 	// 
 
 ////
-////
 ////   FORM
-////
-////
 var InvitationForm = Backbone.View.extend({
   tagName: "form",
 	attributes: { "method": "POST", "action": "/sendform"},
@@ -195,7 +189,6 @@ var InvitationForm = Backbone.View.extend({
 		this.renderMultipleText("middletext")
 	},
 	renderMultipleText: function(field) {
-
 		  var $maintext = this.$('#' + field + '_container')
 			$maintext.empty();
 				var lines = this.model.get(field)
@@ -238,9 +231,7 @@ var InvitationForm = Backbone.View.extend({
 		var $field = $(e.currentTarget);
 		var value = $field.val();
 		var id = $field.data("field")
-		console.log(id,value)
-			this.model.set(id, value)
-		
+	  this.model.set(id, value)		
 	},
 	update: function(e) {
 	  var $field = $(e.currentTarget);
@@ -255,64 +246,9 @@ var InvitationForm = Backbone.View.extend({
 		}
 	},
 	render: function() {
-	var that = this;
-	this.$el.empty();
-	var fields = this.model.attributes
-		for(key in fields) {
-		// MAKE FRIENDLY NAME				
-				var name = key.replace(/_/g, " ").split("-")[0];
-				name = name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-		  if (key == "maintext" || key =="beforetext" || key =="middletext") {
-			  var $maintext = $('<div id="' + key + '_container"></div>')
-				var lines = fields[key]
-				var counter = 0;
-				lines.forEach(function(line) {
-				  var $label = $('<label for="' + key + counter + '">Line ' + counter + '</label><br/>')
-					var $field = $('<input type="text" value="' + line + '" name="' + key + counter+ '" size="50" data-field="' + key + '" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '" data-field_type="' + key + '" class="delete"><br/>"')
-
-			    $maintext.append($label).append($field)
-			    if (counter == (lines.length - 1)) {
-				    $maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light" data-field_type="' + key +'"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
-			    }
-					counter = counter + 1;
-				})
-				that.$el.append($maintext)
-			} else if (key == "wedding_day" || key == "rsvp_day") {
-				var $label = $('<label for="' + key + '">' + name + '</label><br/>')
-				var build_select_string = '<select name="' + key + '" data-field="' + key + '">'
-				for(var i=1; i < 32; i++) {
-					build_select_string = build_select_string + '<option value="' + i + '">' + i + '</option>'
-				}
-				build_select_string = build_select_string + "</select><br/>"
-				var $field = $(build_select_string)
-				that.$el.append($label).append($field)
-			} else if (key == "wedding_month" || key == "rsvp_month"){
-				var $label = $('<label for="' + key + '">' + name + '</label><br/>')
-				var build_select_string = '<select name="' + key + '" data-field="' + key + '">'
-				for(var i=1; i < 13; i++) {
-					build_select_string = build_select_string + '<option value="' + i + '">' + months[i-1] + '</option>'
-				}
-				build_select_string = build_select_string + "</select><br/>"
-				var $field = $(build_select_string)
-				that.$el.append($label).append($field)
-			} else if (key == "wedding_year" || key == "rsvp_year"){
-				var $label = $('<label for="' + key + '">' + name + '</label><br/>')
-				var build_select_string = '<select name="' + key + '" data-field="' + key + '">'
-				for(var i=2015; i < 2019; i++) {
-					build_select_string = build_select_string + '<option value="' + i + '">' + i + '</option>'
-				}
-				build_select_string = build_select_string + "</select><br/>"
-				var $field = $(build_select_string)
-				that.$el.append($label).append($field)
-			} else {
-			  
-			  var $label = $('<label for="' + key + '">' + name + '</label><br/>')
-		    var $field = $('<input type="text" value="' + fields[key] + '" size="50" data-field="' + key + '" name="' + key + '"></input><br/>"')
-			  this.$el.append($label).append($field)
-			}
-		}	
-		this.$el.append("<input type='hidden' name='ebay_id' value='<%= ebay_id %>'></input>")
-		this.$el.append("<input type='submit' style='padding:1em;margin-top:1em;'></submit>")
+	   var compiled_template = _.template($('#form_template').html());
+     var html =compiled_template(detail.toJSON())
+		this.$el.html(html);
 		return this;
 	}
 })
@@ -376,8 +312,6 @@ $('#flat_invite').click(function() {
  $('.close').click(function() {
    $('#ui_print_alert').fadeOut();
  })
- 
- 
  
  })
 	 

@@ -10,12 +10,12 @@ body, div{
 @font-face { font-family:"Exmouth"; src: url('/fonts/exmouth.eot?') format('eot'), url('/fonts/exmouth.woff') format('woff'); } 
 select { margin-bottom:0.4em;margin-left:1em;}
 input { 
-margin-left:1em;
-width:90%;
-  font: normal 1em 'OS Light';
+  margin-left:1em;
+  width:90%;
+  font: normal 0.8em 'OS Light';
   margin-bottom:0.4em;
 }
-input:hover { background-color:lightgrey;}
+  input:hover { background-color:lightgrey;}
 
 label {
    font: normal 0.9em 'OS Light Italic'; 

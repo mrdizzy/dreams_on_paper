@@ -18,7 +18,6 @@ router.get('/orders', function(req, res, next) {
 })
 
 router.get('/customise', function(req, res, next) {
-
   res.render('customise', {
     ebay_id: req.query.ebay_id,
     order: ""
@@ -33,7 +32,6 @@ var maintext = [];
       maintext.push(docs["maintext" + i])
     }
   }
-  console.log(maintext)
   docs.maintext = maintext;
   res.render('customise', {
     order: docs, 
