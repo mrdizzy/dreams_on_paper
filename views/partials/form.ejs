@@ -1,57 +1,57 @@
 <script type="text/template" id="form_template">
 
 <form>
+<h3>Wedding information</h3>
 <label for="monogram_bride">Brides name for monogram</label>
-<input type="text" name="monogram_bride" value="{{=monogram_bride}}"></input>
+<input data-field="monogram_bride" type="text" name="monogram_bride" value="{{=monogram_bride}}"></input>
 
 <label for="monogram_groom">Grooms name for monogram</label>
-<input type="text" name="monogram_groom" value="{{=monogram_groom}}"></input>
+<input data-field="monogram_groom" type="text" name="monogram_groom" value="{{=monogram_groom}}"></input>
 
 <label for="groom_fullname">Groom's fullname</label>
-<input type="text" name="groom_fullname" value="{{=groom_fullname}}"></input>
+<input data-field="groom_fullname" type="text" name="groom_fullname" value="{{=groom_fullname}}"></input>
 
 <label for="bride_fullname">Bride's fullname</label>
-<input type="text" name="bride_fullname" value="{{=bride_fullname}}"></input>
+<input data-field="bride_fullname" type="text" name="bride_fullname" value="{{=bride_fullname}}"></input>
 
 
 <label for="wedding_day">Wedding DAY</label>
-<input type="text" name="wedding_day" value="{{=wedding_day}}"></input>
+<input  data-field="wedding_day" type="text" name="wedding_day" value="{{=wedding_day}}"></input>
 
 <label for="wedding_month">Wedding MONTH</label>
-<input type="text" name="wedding_month" value="{{=wedding_month}}"></input>
+<input data-field="wedding_month" type="text" name="wedding_month" value="{{=wedding_month}}"></input>
 
 <label for="wedding_year">Wedding YEAR</label>
-<input type="text" name="wedding_year" value="{{=wedding_year}}"></input>
+<input data-field="wedding_year" type="text" name="wedding_year" value="{{=wedding_year}}"></input>
 
-<label for="rsvp_day">RSVP DAY</label>
-<input type="text" name="rsvp_day" value="{{=rsvp_day}}"></input>
-
-<label for="rsvp_month">RSVP MONTH</label>
-<input type="text" name="rsvp_month" value="{{=rsvp_month}}"></input>
-
-
-<label for="rsvp_year">RSVP YEAR</label>
-<input type="text" name="rsvp_year" value="{{=rsvp_year}}"></input>
-
-<label for="rsvp_address">RSVP Address</label>
-<input type="text" name="rsvp_address" value="{{=rsvp_address}}"></input>
 
 <label for="venue">Wedding Venue</label>
-<input type="text" name="venue" value="{{=venue}}"></input>
+<input data-field="venue" type="text" name="venue" value="{{=venue}}"></input>
 
 <label for="location">Wedding Location</label>
-<input type="text" name="location" value="{{=location}}"></input>
+<input data-field="location"  type="text" name="location" value="{{=location}}"></input>
 
+<h3>RSVP</h3>
+
+<label for="rsvp_day">RSVP DAY</label>
+<input data-field="rsvp_day" type="text" name="rsvp_day" value="{{=rsvp_day}}"></input>
+
+<label for="rsvp_month">RSVP MONTH</label>
+<input data-field="rsvp_month" type="text" name="rsvp_month" value="{{=rsvp_month}}"></input>
+
+<label for="rsvp_year">RSVP YEAR</label>
+<input data-field="rsvp_year" type="text" name="rsvp_year" value="{{=rsvp_year}}"></input>
+
+<label for="rsvp_address">RSVP Address</label>
+<input data-field="rsvp_address" type="text" name="rsvp_address" value="{{=rsvp_address}}"></input>
 
 <label for="rsvp_phone">RSVP Phone</label>
-<input type="text" name="rsvp_phone" value="{{=rsvp_phone}}"></input>
-
+<input data-field="rsvp_phone" type="text" name="rsvp_phone" value="{{=rsvp_phone}}"></input>
 
 <label for="rsvp_email">RSVP Email</label>
-<input type="text" name="rsvp_email" value="{{=rsvp_email}}"></input>
+<input data-field="rsvp_email" type="text" name="rsvp_email" value="{{=rsvp_email}}"></input>
 
-<p>Text before</p>
-<hr/>
+<h3>Top text</h3>
 
 <div id="beforetext_container">
 {{ var counter = 0; }}
@@ -67,6 +67,8 @@
 </div>
 
 </div>
+
+<h3>Middle text</h3>
 <div id="middletext_container">
 {{ var counter = 0; }}
 {{middletext.forEach(function(line) { }}
@@ -81,6 +83,10 @@
 </div>
 
 </div>
+
+<h3>Bottom text</h3>
+
+
 <div id="maintext_container">
 {{ var counter = 0; }}
 {{maintext.forEach(function(line) { }}
@@ -91,6 +97,7 @@
 				
 	{{ counter++; }}
 {{ }) }}
+
 <div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light" data-field_type="maintext"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>
 </div>
 

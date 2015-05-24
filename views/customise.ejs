@@ -1,7 +1,6 @@
 <!doctype html>
 <html>
   <head>
-	
 		<link rel="stylesheet" href="/stylesheets/reset.css" />       
     <link rel="stylesheet" href="/stylesheets/stylesheet.css" />   
 		
@@ -14,7 +13,6 @@
 			evaluate: /\{\{(.+?)\}\}/g
 			};
 		</script>
-		
   </head>
 	
   <body>
@@ -55,28 +53,13 @@
 
 
 
-
-
 <!-- PRINTABLE AREA -->
-
 
 <div id="printable_area"></div>
 
 <script>
 
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-function determine_date_subscript(number) {
-	if (number == 1 || number == 21 || number == 31) {
-		return "st";
-	} else if (number == 2 || number == 22) {
-		return "nd"
-	} else if (number == 3 || number == 23) {
-		return "rd"
-	} else {
-		return "th"
-	}
-}
 
 // Scale the ui_area so that it looks nice on the screen
 var vw = $('html').width();
@@ -87,7 +70,6 @@ var transform_value = vw / 794 // 794 is the width of an A4 page in pixels
 
 $('#ui_area').css("transform", "scale(" + transform_value + ")")
 $('#ui_area').css("transform-origin", "top left")
-
 
 var Detail = Backbone.Model.extend({
   defaults: {
@@ -109,32 +91,15 @@ var Detail = Backbone.Model.extend({
 		rsvp_email: "david.pettifer@dizzy.co.uk",
 		rsvp_phone: "07814 752865",
 		maintext: [ "on the occasion of their marriage", "to take place at", "The Ravensworth Hotel, Lamesley, Winchester", "on Saturday 17th June 2012 at 1.30pm", "Followed by a Reception at Lakeside Manor Park"],
-		ebay_id: <%= ebay_id %>
+		ebay_id: "<%= ebay_id %>"
 	}
 })
 
 <% if (order) { %>
-var detail = new Detail(<%- JSON.stringify(order) %>);
+  var detail = new Detail(<%- JSON.stringify(order) %>);
 <% } else { %>
-var detail = new Detail();
+  var detail = new Detail();
 <% } %>
-
-function Valign() {
-	var container_height = $('.valign_container').first().height();
-	var total_height_of_elements = 0;
-	var counter = 1;
-	$('.valign_container').first().find('.foralign').each(function(index) {
-		counter = counter + 1;
-		total_height_of_elements = total_height_of_elements + $(this).height();
-	})
-
-	var remainder = container_height - total_height_of_elements;
-	var padding = remainder / counter;
-	padding = padding / 2;
-	$('.valign_container').first().find('.foralign').each(function(index) {
-	 $(this).css("padding-top", padding).css("padding-bottom", padding)
-	})
-}
 
 var InvitationFrontView = Backbone.View.extend({
 	el: '#invitation_front_preview',
@@ -174,36 +139,6 @@ iv.render();
 var InvitationForm = Backbone.View.extend({
   tagName: "form",
 	attributes: { "method": "POST", "action": "/sendform"},
-	initialize: function() {
-		this.listenTo(this.model, "change:maintext", this.renderMainText)
-		this.listenTo(this.model, "change:beforetext", this.renderBeforeText)
-				this.listenTo(this.model, "change:middletext", this.renderMiddleText)
-	},
-	renderMainText: function() {
-		this.renderMultipleText("maintext")
-	},
-	renderBeforeText: function(){
-		this.renderMultipleText("beforetext")
-	},
-	renderMIddleText: function(){
-		this.renderMultipleText("middletext")
-	},
-	renderMultipleText: function(field) {
-		  var $maintext = this.$('#' + field + '_container')
-			$maintext.empty();
-				var lines = this.model.get(field)
-				var counter = 0;
-				lines.forEach(function(line) {
-					var $label = $('<label for="' + field + counter + '">Line ' + counter + '</label><br/>')
-					var $field = $('<input type="text" value="' + line + '" name="' + field + counter+ '" size="50" data-field="' + field + '" data-counter="' + counter + '"></input><img src="/gfx/icons/delete.svg" style="width:13px;" data-delete="' + counter + '" data-field_type="' + field + '" class="delete"><br/>"')
-
-					$maintext.append($label).append($field)
-					if (counter == (lines.length - 1)) {
-						$maintext.append('<div class="add" style="cursor:pointer;width:150px;padding:10px;text-align:center;border-radius:8px;font:normal 1em OS Light" data-field_type="' + field + '"><img src="/gfx/icons/add.svg" style="vertical-align:middle;width:15px;"> ADD ANOTHER LINE</span><br/>')
-					}
-					counter = counter + 1;
-				})
-	},
 	events: {
 		'blur input': 'update',
 		'click .add': 'addToText',
@@ -212,20 +147,18 @@ var InvitationForm = Backbone.View.extend({
 	},
 	deleteText: function(e) {	 
 		var $field = $(e.currentTarget);
-		 var field_type = $field.data("field_type")
+	 var field_type = $field.data("field_type")
 		var index = $field.data("delete")
 		var ary = this.model.get(field_type);
 		ary.splice(index,1)
-		console.log(ary)
 		this.model.set(field_type, ary).trigger("change:" + field_type)
 	},
 	addToText: function(e) {
 		 var $field = $(e.currentTarget);
 		 var field_type = $field.data("field_type")
-
-	var ary = this.model.get(field_type);
-		ary.push("");
-		this.model.set(field_type, ary).trigger("change:" + field_type)
+	   var ary = this.model.get(field_type);
+		 ary.push("");
+		 this.model.set(field_type, ary).trigger("change:" + field_type)
 	},
 	selectChanged: function(e) {
 		var $field = $(e.currentTarget);
@@ -237,7 +170,7 @@ var InvitationForm = Backbone.View.extend({
 	  var $field = $(e.currentTarget);
 		var value = $field.val();
     var id = $field.data("field")
-		if (id == "maintext" || id == "beforetext") {
+		if (id == "maintext" || id == "beforetext" || id == "middletext") {
       var ary = this.model.get(id);
       ary[$field.data("counter")] = value;
 			this.model.set(id, ary).trigger("change")
@@ -246,8 +179,8 @@ var InvitationForm = Backbone.View.extend({
 		}
 	},
 	render: function() {
-	   var compiled_template = _.template($('#form_template').html());
-     var html =compiled_template(detail.toJSON())
+	  var compiled_template = _.template($('#form_template').html());
+    var html =compiled_template(detail.toJSON())
 		this.$el.html(html);
 		return this;
 	}
@@ -315,6 +248,35 @@ $('#flat_invite').click(function() {
  
  })
 	 
+function Valign() {
+	var container_height = $('.valign_container').first().height();
+	var total_height_of_elements = 0;
+	var counter = 1;
+	$('.valign_container').first().find('.foralign').each(function(index) {
+		counter = counter + 1;
+		total_height_of_elements = total_height_of_elements + $(this).height();
+	})
+
+	var remainder = container_height - total_height_of_elements;
+	var padding = remainder / counter;
+	padding = padding / 2;
+	$('.valign_container').first().find('.foralign').each(function(index) {
+	 $(this).css("padding-top", padding).css("padding-bottom", padding)
+	})
+}
+
+
+function determine_date_subscript(number) {
+	if (number == 1 || number == 21 || number == 31) {
+		return "st";
+	} else if (number == 2 || number == 22) {
+		return "nd"
+	} else if (number == 3 || number == 23) {
+		return "rd"
+	} else {
+		return "th"
+	}
+}
 </script>
 
 </body>

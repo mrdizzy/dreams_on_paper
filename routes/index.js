@@ -33,6 +33,7 @@ var maintext = [];
     }
   }
   docs.maintext = maintext;
+  console.log(docs)
   res.render('customise', {
     order: docs, 
     ebay_id: ""
