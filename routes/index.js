@@ -17,6 +17,18 @@ router.get('/orders', function(req, res, next) {
   })
 })
 
+
+router.get('/invitations/new', function(req, res, next) {
+    res.render('invitations/new')
+})
+
+router.post('/invitations', function(req, res, next) {
+  db.save(req.body, function(err, result) {
+    console.log(err, result)
+  })
+  res.send(200)
+})
+
 router.get('/customise', function(req, res, next) {
   res.render('customise', {
     ebay_id: req.query.ebay_id,

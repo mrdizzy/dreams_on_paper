@@ -1,0 +1,230 @@
+<!doc html>
+
+<html>
+     <head>
+        
+		<link rel="stylesheet" href="/stylesheets/reset.css" />    
+		
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>   
+    
+		<script src="/javascripts/attachments.js"></script>
+		<script>
+			_.templateSettings = {
+			interpolate: /\{\{=(.+?)\}\}/g,
+			evaluate: /\{\{(.+?)\}\}/g
+			};
+		</script>
+		
+		<style type="text/css">
+		    #invitation { float:left;width:105mm;height:148.5mm; border:1px solid black;}
+		</style>
+  </head>
+  
+  <div id="invitation">
+      </div>
+  <div id="admin">
+      
+  
+  <textarea id="style" style="float:right;width:300px;">#invitation {
+font-family: 'Josefin Slab'
+}
+
+#bride_and_groom {
+text-align: center;
+font: normal 2em 'Exmouth';
+}
+
+#before_text,
+#middle_text,
+#description_text { 
+  text-align:center;
+  font: normal 1.5em 'Josefin Slab';
+line-height:1.4em;
+}
+
+.guestname {
+text-align:center;
+font: normal 1.8em "Exmouth";
+}</textarea>
+  <textarea id="the_html">
+     
+	<div class="invitation_front A6_container">
+			
+			
+			
+			   <div id="before_text" class="foralign">
+				 {{ beforetext.forEach(function(line) { }}
+				 	<span class="editable" >{{= line }} {{ if (beforetext[beforetext.length - 1] == line) { }} 
+				 {{ } else { }}			
+					<img src="/invite/bullet.svg" class="bullet" style="vertical-align:middle;" />
+					{{ } }} 
+				{{ }) }}
+				 </div>
+			
+			
+			
+			
+			<div id="bride_and_groom" class="foralign">
+			
+				
+				<div id="groom_fullname"  class="editable bride">{{= groom_fullname}}</div>				
+				<div class="and">and</div>				
+				<div "bride_fullname" class="editable groom" >{{= bride_fullname }}</div>
+				
+			</div>
+			
+			
+			
+			
+				 <div id="middle_text" class="request foralign">
+				 {{ middletext.forEach(function(line) { }}
+				 <span class="editable" >{{= line }} {{ if (middletext[middletext.length - 1] == line) { }} 
+			
+				 {{ } else { }}
+				
+<img src="/invite/bullet.svg" class="bullet" style="vertical-align:middle;" />
+{{ } }} 
+				{{ }) }}
+				 </div>
+			
+			
+			
+			<div  class="foralign guestname">Mr &amp; Mrs Guest Name</div>
+			<div class="foralign">
+			<div id="description_text">
+		 	  {{ maintext.forEach(function(line) { }}
+			    <span class="editable" >{{= line }}</span> {{ if (maintext[maintext.length - 1] == line) { }} 
+		        {{ } else { }}
+                  <img src="/invite/bullet.svg" class="bullet" style="display:inline-block;vertical-align:middle;" />
+                {{ } }} 
+			 {{ }) }}
+				
+			</div>
+				
+				
+				
+				
+				
+				
+				
+			
+      
+  </textarea>
+  <div id="submit" style="width:50px;background-color:green;height:20px;"></div>
+  <span id="add_attachment">Add Attachment</span>
+  </div>
+    
+    <script>
+  
+    
+    <% ebay_id = "" %>
+    <% include ../models/detail %>
+    var AttachView = Backbone.View.Attachment.extend({
+  initialize: function() {
+    if(this.model) this.model.on("change", this.render, this)
+  },
+  tagName: "div",
+  className: "attachment",
+  render: function() {
+    if(this.model) {
+        this.$el.html(this.model.id + " - " + this.model.get("width") + "x" + this.model.get("height") + "(" + this.model.get("size") +"K)" + "<br/><img src='" + this.model.url() + "' width='120' height='90' />")
+    } else {
+        this.$el.html("<div style='width:120px;height:90px;border:1px solid black;display:inline-block;'></div>")
+    }
+    return this;
+  }
+})
+        
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var Invitation = Backbone.Model.CouchDB.extend({
+              attachment_types: ["svg"],
+              urlRoot: "/invitations"
+        })
+        
+        
+        var InvitationProductView = Backbone.View.CouchDB.extend({
+            el: '#admin',
+            events: {
+                'click #submit': 'saving', 
+                'click #add_attachment': 'addAttachment'
+            },
+            render: function() {
+                
+    var attachments = this.buildAttachments({groupEl: 'div'})
+    this.$el.append(attachments)
+            },
+            saving: function() {
+                this.model.save()
+            }
+        })
+        
+        new InvitationProductView({model: new Invitation, attachmentView: AttachView}).render()
+        
+        var InvitationView = Backbone.View.extend({
+            el: $('#invitation'),
+            valign: function() {
+	var container_height = this.$el.height();
+	console.log(container_height)
+	var total_height_of_elements = 0;
+	var counter = 1;
+	this.$('.foralign').each(function(index) {
+		counter = counter + 1;
+		console.log(this)
+		total_height_of_elements = total_height_of_elements + $(this).height();
+	})
+
+	var remainder = container_height - total_height_of_elements;
+	var padding = remainder / counter;
+	padding = padding / 2;
+	this.$('.foralign').each(function(index) {
+	 $(this).css("padding-top", padding).css("padding-bottom", padding)
+	})
+
+            },
+            render: function() {
+              
+              	  var compiled_template = _.template($('#the_html').val());
+		var pretty = this.model.toJSON();
+		var pretty_monogram_month = months[this.model.get("wedding_month") - 1]
+		pretty.pretty_monogram_month = pretty_monogram_month;
+		
+		var date_subscript = determine_date_subscript(this.model.get("wedding_day"));
+		pretty.pretty_date_subscript = date_subscript
+		
+	  var html =compiled_template(pretty)
+		this.$el.html(html);
+		return this;
+                
+            }
+            
+        })
+        var iv = new InvitationView({model: new Detail()}).render();
+        
+
+function determine_date_subscript(number) {
+	if (number == 1 || number == 21 || number == 31) {
+		return "st";
+	} else if (number == 2 || number == 22) {
+		return "nd"
+	} else if (number == 3 || number == 23) {
+		return "rd"
+	} else {
+		return "th"
+	}
+}
+
+
+	 
+
+  $('#submit').click(function() {
+         var styles  = $('#style').val()
+         iv.render();
+          $('head').append("<style type='text/css'>" + styles + "</style>");
+iv.valign();
+    })
+    </script>
+    
+</html>

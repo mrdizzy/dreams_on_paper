@@ -1,0 +1,50 @@
+////   FORM
+var InvitationForm = Backbone.View.extend({
+  tagName: "form",
+	attributes: { "method": "POST", "action": "/sendform"},
+	events: {
+		'blur input': 'update',
+		'click .add': 'addToText',
+		'click .delete': 'deleteText',
+		'change select': 'selectChanged'
+	},
+	deleteText: function(e) {	 
+		var $field = $(e.currentTarget);
+	 var field_type = $field.data("field_type")
+		var index = $field.data("delete")
+		var ary = this.model.get(field_type);
+		ary.splice(index,1)
+		this.model.set(field_type, ary).trigger("change:" + field_type)
+	},
+	addToText: function(e) {
+		 var $field = $(e.currentTarget);
+		 var field_type = $field.data("field_type")
+	   var ary = this.model.get(field_type);
+		 ary.push("");
+		 this.model.set(field_type, ary).trigger("change:" + field_type)
+	},
+	selectChanged: function(e) {
+		var $field = $(e.currentTarget);
+		var value = $field.val();
+		var id = $field.data("field")
+	  this.model.set(id, value)		
+	},
+	update: function(e) {
+	  var $field = $(e.currentTarget);
+		var value = $field.val();
+    var id = $field.data("field")
+		if (id == "maintext" || id == "beforetext" || id == "middletext") {
+      var ary = this.model.get(id);
+      ary[$field.data("counter")] = value;
+			this.model.set(id, ary).trigger("change")
+		} else {	
+		  this.model.set(id, value)
+		}
+	},
+	render: function() {
+	  var compiled_template = _.template($('#form_template').html());
+    var html =compiled_template(detail.toJSON())
+		this.$el.html(html);
+		return this;
+	}
+})

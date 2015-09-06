@@ -63,7 +63,7 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 
 // Scale the ui_area so that it looks nice on the screen
 var vw = $('html').width();
-var height_of_ui_container = (1.4142857142857142857142857142857 * vw)
+var height_of_ui_container = (1.4142857142857142857142857142857 * vw) // 
 $('#ui_container').css("height",height_of_ui_container + 75)
 
 var transform_value = vw / 794 // 794 is the width of an A4 page in pixels
@@ -71,59 +71,15 @@ var transform_value = vw / 794 // 794 is the width of an A4 page in pixels
 $('#ui_area').css("transform", "scale(" + transform_value + ")")
 $('#ui_area').css("transform-origin", "top left")
 
-var Detail = Backbone.Model.extend({
-  defaults: {
-		monogram_bride: "Anna",
-		monogram_groom: "David", 	
-		groom_fullname: "Jonathan Henry Griffiths",
-		bride_fullname: "Anna Eleanor Martin",
-		wedding_day: 31,
-		wedding_month: 05,
-		wedding_year: 2015,
-		venue: "Appuldurcombe House", 
-		location: "Winchester",		
-		beforetext: ["Together with their parents"],
-		middletext: [ "Are getting married", "and request the pleasure of the company of"],
-	  rsvp_day: 05,
-		rsvp_month: 03,
-		rsvp_year: 2015,
-		rsvp_address: "32 Middlewood Rd, Brigton, me3 21b",
-		rsvp_email: "david.pettifer@dizzy.co.uk",
-		rsvp_phone: "07814 752865",
-		maintext: [ "on the occasion of their marriage", "to take place at", "The Ravensworth Hotel, Lamesley, Winchester", "on Saturday 17th June 2012 at 1.30pm", "Followed by a Reception at Lakeside Manor Park"],
-		ebay_id: "<%= ebay_id %>"
-	}
-})
+<% include models/detail %>
+<% include models/view_invitation_front %>
+<% include models/view_invitation_form %>
 
 <% if (order) { %>
   var detail = new Detail(<%- JSON.stringify(order) %>);
 <% } else { %>
   var detail = new Detail();
 <% } %>
-
-var InvitationFrontView = Backbone.View.extend({
-	el: '#invitation_front_preview',
-	initialize: function() {
-		this.listenTo(this.model, 'change', this.render)
-		this.listenTo(this.model, 'change:maintext', this.render)
-		this.listenTo(this.model, 'change:beforetext', this.render)
-		this.listenTo(this.model, 'change:middletext', this.render)
-	},
-	render: function() {
-	  var compiled_template = _.template($('#invitation_front_template').html());
-		var pretty = this.model.toJSON();
-		var pretty_monogram_month = months[this.model.get("wedding_month") - 1]
-		pretty.pretty_monogram_month = pretty_monogram_month;
-		
-		var date_subscript = determine_date_subscript(this.model.get("wedding_day"));
-		pretty.pretty_date_subscript = date_subscript
-		
-	  var html =compiled_template(pretty)
-		this.$el.html(html);
-		Valign();
-		return this;
-	}
-})
 
 var iv = new InvitationFrontView({model: detail});
 iv.render();
@@ -132,59 +88,6 @@ iv.render();
   $(window).bind("load", function() {
 	// Formula to vertically align a list of elements:
 	// ((height_of_page - (height of page - total of all elements height)) / (number_of_elements + 1))
-	// 
-
-////
-////   FORM
-var InvitationForm = Backbone.View.extend({
-  tagName: "form",
-	attributes: { "method": "POST", "action": "/sendform"},
-	events: {
-		'blur input': 'update',
-		'click .add': 'addToText',
-		'click .delete': 'deleteText',
-		'change select': 'selectChanged'
-	},
-	deleteText: function(e) {	 
-		var $field = $(e.currentTarget);
-	 var field_type = $field.data("field_type")
-		var index = $field.data("delete")
-		var ary = this.model.get(field_type);
-		ary.splice(index,1)
-		this.model.set(field_type, ary).trigger("change:" + field_type)
-	},
-	addToText: function(e) {
-		 var $field = $(e.currentTarget);
-		 var field_type = $field.data("field_type")
-	   var ary = this.model.get(field_type);
-		 ary.push("");
-		 this.model.set(field_type, ary).trigger("change:" + field_type)
-	},
-	selectChanged: function(e) {
-		var $field = $(e.currentTarget);
-		var value = $field.val();
-		var id = $field.data("field")
-	  this.model.set(id, value)		
-	},
-	update: function(e) {
-	  var $field = $(e.currentTarget);
-		var value = $field.val();
-    var id = $field.data("field")
-		if (id == "maintext" || id == "beforetext" || id == "middletext") {
-      var ary = this.model.get(id);
-      ary[$field.data("counter")] = value;
-			this.model.set(id, ary).trigger("change")
-		} else {	
-		  this.model.set(id, value)
-		}
-	},
-	render: function() {
-	  var compiled_template = _.template($('#form_template').html());
-    var html =compiled_template(detail.toJSON())
-		this.$el.html(html);
-		return this;
-	}
-})
 
 var invitation_form = new InvitationForm({model:detail});
 $('#form_container').html(invitation_form.render().$el);
@@ -264,7 +167,6 @@ function Valign() {
 	 $(this).css("padding-top", padding).css("padding-bottom", padding)
 	})
 }
-
 
 function determine_date_subscript(number) {
 	if (number == 1 || number == 21 || number == 31) {

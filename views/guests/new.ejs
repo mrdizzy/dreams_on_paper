@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+
+</head>
+
+<body>
+    <div id="guest_form">
+
+Name on inside of invitation: <input type="text" name="name"></input><br/>
+Name on envelope: <input type="text" name="name_on_envelope"></input><br/>
+Address: <textarea name="address"></textarea><br/>
+Post code: <input type="text" name="postcode"></input><br/>
+<input type="submit"></input>
+</div>
+</body>
+
+
+<script>
+
+var Guest = Backbone.Model.extend({
+    
+})
+var Guests = Backbone.Collection.extend({
+    model: Guest
+})
+
+var GuestFormView = Backbone.View.extend({
+    el: $('#guest_form'),
+    render: function() {
+         
+    }
+})
+
+var gfv = new GuestFormView();
+gfv.render();
+
+</script>
+</html>

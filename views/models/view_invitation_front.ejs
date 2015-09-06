@@ -1,0 +1,24 @@
+
+var InvitationFrontView = Backbone.View.extend({
+	el: '#invitation_front_preview',
+	initialize: function() {
+		this.listenTo(this.model, 'change', this.render)
+		this.listenTo(this.model, 'change:maintext', this.render)
+		this.listenTo(this.model, 'change:beforetext', this.render)
+		this.listenTo(this.model, 'change:middletext', this.render)
+	},
+	render: function() {
+	  var compiled_template = _.template($('#invitation_front_template').html());
+		var pretty = this.model.toJSON();
+		var pretty_monogram_month = months[this.model.get("wedding_month") - 1]
+		pretty.pretty_monogram_month = pretty_monogram_month;
+		
+		var date_subscript = determine_date_subscript(this.model.get("wedding_day"));
+		pretty.pretty_date_subscript = date_subscript
+		
+	  var html =compiled_template(pretty)
+		this.$el.html(html);
+		Valign();
+		return this;
+	}
+})
