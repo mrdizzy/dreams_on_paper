@@ -13,6 +13,8 @@
 			evaluate: /\{\{(.+?)\}\}/g
 			};
 		</script>
+		<style type="text/css">
+		</style>
   </head>
 	
   <body>
@@ -36,7 +38,7 @@
 	
 <!-- USER INTERFACE DISPLAY -->
 
-<div style="overflow:hidden" id="ui_container">
+<div id="ui_container">
   <div id="ui_area"> 
     <div id="invitation_front_preview"></div>		
 		<div class="A6_container">
@@ -65,6 +67,7 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 var vw = $('html').width();
 var height_of_ui_container = (1.4142857142857142857142857142857 * vw) // 
 $('#ui_container').css("height",height_of_ui_container + 75)
+$('#ui_container').css("overflow","visible")
 
 var transform_value = vw / 794 // 794 is the width of an A4 page in pixels
 

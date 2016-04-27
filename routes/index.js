@@ -17,7 +17,6 @@ router.get('/orders', function(req, res, next) {
   })
 })
 
-
 router.get('/invitations/new', function(req, res, next) {
     res.render('invitations/new')
 })
